@@ -1,10 +1,19 @@
 <script>
-    let name, description,message
+    let name, description, image
+
+    const postLink = () => {
+        let json = {
+            name,
+            description,
+            image
+        }
+        console.log(json);
+    }
 </script>
 
 <h1>Kinda of a bookmark application</h1>
 
-<form class="form--container">
+<form class="form--container" action="?/post" method="post">
     <div class="field--container">
         <label for="link">Link</label>
         <input type="text" name="link" id="link" bind:value={name} placeholder="Link" />
@@ -17,7 +26,7 @@
 
     <div class="field--container">
         <label for="picture">Picture</label>
-        <input type="file" name="picture" id="picture" />
+        <input type="file" name="picture" id="picture" bind:value={image} />
     </div>
 
     <div class="field--container">
