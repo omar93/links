@@ -1,13 +1,15 @@
 <script>
     let name, description, image
 
-    const postLink = () => {
-        let json = {
-            name,
-            description,
-            image
-        }
-        console.log(json);
+    const encodeImage = (element) => {
+        let file = element.target.files[0]
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.addEventListener('load', () => {
+            console.log(image);
+            image = reader.result
+            console.log(image);
+        })
     }
 </script>
 
@@ -25,8 +27,8 @@
     </div>
 
     <div class="field--container">
-        <label for="picture">Picture</label>
-        <input type="file" name="picture" id="picture" bind:value={image} />
+        <label for="image">Picture</label>
+        <input type="file" name="image" id="image" bind:value={image} on:change={encodeImage} />
     </div>
 
     <div class="field--container">

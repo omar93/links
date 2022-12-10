@@ -6,7 +6,8 @@ export const actions = {
         const data = await request.formData();
         const link = data.get('link');
         const description = data.get('description');
-        const image = data.get('image');
+        let image = data.get('image');
+
         let json = {
             link: link,
             description: description,
