@@ -1,24 +1,39 @@
 <script>
-    let name, description, image
+    let link, description, image, base64
 
     const encodeImage = (element) => {
         let file = element.target.files[0]
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.addEventListener('load', () => {
-            console.log(image);
-            image = reader.result
-            console.log(image);
+            base64 = reader.result
         })
     }
+
+    const submit = async () => {
+        
+        let data = {
+            link,
+            description,
+            base64: base64 || null
+        }
+
+        await fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+    }        
 </script>
 
 <h1>Kinda of a bookmark application</h1>
 
-<form class="form--container" action="?/post" method="post">
+<form class="form--container" on:submit={submit}>
     <div class="field--container">
         <label for="link">Link</label>
-        <input type="text" name="link" id="link" bind:value={name} placeholder="Link" />
+        <input type="text" name="link" id="link" bind:value={link} placeholder="Link" />
     </div>
 
     <div class="field--container">
