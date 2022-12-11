@@ -1,4 +1,6 @@
 <script>
+    import { onMount } from 'svelte'
+
     let link, description, image, base64
 
     const encodeImage = (element) => {
@@ -11,7 +13,7 @@
     }
 
     const submit = async () => {
-        
+
         let data = {
             link,
             description,
@@ -25,7 +27,20 @@
             },
             body: JSON.stringify(data)
         })
-    }        
+    }
+    
+    onMount(async () => {
+        let response = await fetch('/')
+        console.log(response.body)
+
+        const reader = response.body.getReader();
+
+        let result;
+        while (!(result = await reader.read()).done) {
+        console.log('chunk size:', result.value.byteLength);
+        }
+
+    })
 </script>
 
 <h1>Kinda of a bookmark application</h1>
@@ -56,9 +71,11 @@
     * {
         font-family: sans-serif;
     }
-
     h1 {
         text-align: center;
+    }
+    label {
+        margin-left: 3px;
     }
     .form--container {
         display: flex;

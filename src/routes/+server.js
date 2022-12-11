@@ -31,3 +31,20 @@ export const POST = async ({ request }) => {
 }
 
 
+export const GET = async () => {
+    let response
+    const db = MongoClient.connect(CONNECTION_URL, (err, db) => {
+        if (err) throw err;
+
+        let dbo = db.db('links');
+
+        dbo.collection('links').find({}).toArray((err, result) => {
+            if (err) throw err;
+            db.close();
+            response = (JSON.stringify(result), { status: 200 })
+        })
+    })
+    return new Response(response)
+}
+
+
