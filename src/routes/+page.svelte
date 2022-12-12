@@ -1,7 +1,17 @@
 <script>
     import { onMount } from 'svelte'
 
-    let link, description, image, base64
+    let link, description, image, base64, tags
+
+    onMount(async () => {
+        let response = fetch('/').then(res => res.body)
+        const reader = response.body.getReader();
+
+        let result;
+        while (!(result = await reader.read()).done) {
+        console.log('chunk size:', result.value.byteLength);
+        }
+    })
 
     const encodeImage = (element) => {
         let file = element.target.files[0]
@@ -17,7 +27,8 @@
         let data = {
             link,
             description,
-            base64: base64 || null
+            base64: base64 || null,
+            tags
         }
 
         await fetch('/', {
@@ -29,18 +40,10 @@
         })
     }
     
-    onMount(async () => {
-        let response = await fetch('/')
-        console.log(response.body)
-
-        const reader = response.body.getReader();
-
-        let result;
-        while (!(result = await reader.read()).done) {
-        console.log('chunk size:', result.value.byteLength);
-        }
-
-    })
+    const changeTags = element => {
+        tags = element.target.value
+        console.log(tags);
+    }
 </script>
 
 <h1>Kinda of a bookmark application</h1>
@@ -54,6 +57,18 @@
     <div class="field--container">
         <label for="description">Description</label>
         <input type="text" name="description" id="description" bind:value={description} placeholder="Description" />
+    </div>
+
+    <div class="field--container">
+        <label for="tags">Tags</label>
+        <input list="tags" name="tags" on:change={changeTags}/>
+        <datalist id="tags">
+            <option value="Svelte" />
+            <option value="Sapper" />
+            <option value="JavaScript" />
+            <option value="CSS" />
+            <option value="HTML" />
+        </datalist>
     </div>
 
     <div class="field--container">

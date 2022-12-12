@@ -7,14 +7,14 @@ export const POST = async ({ request }) => {
     const link = formData.link
     const description = formData.description
     const image = formData.base64
+    const tags = formData.tags
 
     let json = {
         link: link,
         description: description,
-        image: image
+        image: image,
+        tags: tags
     }
-
-    console.log(json);
     
     const db = MongoClient.connect(CONNECTION_URL, (err, db) => {
         if (err) throw err;
@@ -41,7 +41,7 @@ export const GET = async () => {
         dbo.collection('links').find({}).toArray((err, result) => {
             if (err) throw err;
             db.close();
-            response = (JSON.stringify(result), { status: 200 })
+            response = (JSON.stringify(result), { status: 400 })
         })
     })
     return new Response(response)
