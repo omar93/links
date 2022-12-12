@@ -21,7 +21,7 @@
             base64 = reader.result
         })
     }
-
+    
     const submit = async () => {
 
         let data = {
