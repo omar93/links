@@ -9,22 +9,24 @@ export const load = async () => {
 
 export const actions =  {
 
-    korvar: async ({ request }) => {
+    default: async ({ request }) => {
 
         const formData = await request.formData();
 
         const link = formData.get('link')
         const description = formData.get('description')
-        const base64 = formData.get('base64')
+        const image = formData.get('image')
         const tags = formData.get('tags')
 
+        
+         
         let json = {
-            link: link,
-            description: description,
-            image: base64,
-            tags: tags
+            link,
+            description,
+            image,
+            tags
         }
-
+        console.log(json);
         links.insertOne(json)
     }
 }

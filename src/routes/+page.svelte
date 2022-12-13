@@ -2,18 +2,36 @@
     import Link from "../components/link.svelte";
     export let data
 
-    let link, description, image, base64, tags;
+    let link, description, base64, image, tags, inputField, fileinput
     
-    const encodeImage = element => {
-        let file = element.target.files[0]
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.addEventListener('load', () => {
-            base64 = reader.result
-        })
-
+    const encodeImage = (e) => {
+        console.log(fileinput.files);
+        let image = fileinput.files[0]
+        let reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload = e => {
+            fileinput.files[0] = reader.result
+            console.log("...................");
+            console.log(fileinput.files[0]);
+        };
     }
-    
+
+    const submit = async () => {
+        let data = {
+            link,
+            description,
+            base64: base64 || null,
+            tags
+        }
+        await fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+    }
+
     const changeTags = element => {
         tags = element.target.value
     }
@@ -22,8 +40,8 @@
 
 <h1>Kinda of a bookmark application</h1>
 
-<form class="form--container" action="?/korvar" method="post">
-    
+<form class="form--container" action="/" method="post">
+    <!-- <form class="form--container" on:submit={submit}> -->
     <div class="field--container">
         <label for="link">Link</label>
         <input type="text" name="link" id="link" bind:value={link} placeholder="Link" />
@@ -48,7 +66,11 @@
 
     <div class="field--container">
         <label for="image">Picture</label>
-        <input type="file" name="image" id="image" bind:value={image} on:change={encodeImage} />
+        <input type="file" name="image" id="image" on:change={encodeImage} on:blur={encodeImage}/>
+
+        <!-- <img class="upload" src="https://static.thenounproject.com/png/625182-200.png" alt="" on:click={()=>{fileinput.click();}} />
+        <div class="chan" on:click={()=>{fileinput.click();}}>Choose Image</div>
+        <input style="display:none" type="file" name="file" accept=".jpg, .jpeg, .png" on:change={(e)=>encodeImage(e)} bind:this={fileinput} > -->
     </div>
 
     <div class="field--container">
