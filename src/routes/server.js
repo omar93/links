@@ -1,4 +1,5 @@
 import { CONNECTION_URL } from '$env/static/private'
+import { links } from '$lib/db/mongo.js'
 import { MongoClient } from 'mongodb'
 
 export const POST = async ({ request }) => {
@@ -41,9 +42,10 @@ export const GET = async () => {
         dbo.collection('links').find({}).toArray((err, result) => {
             if (err) throw err;
             db.close();
-            response = (JSON.stringify(result), { status: 400 })
+            response = (JSON.stringify({'data':result}), { status: 400 })
         })
     })
+    
     return new Response(response)
 }
 

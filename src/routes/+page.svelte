@@ -1,54 +1,29 @@
 <script>
-    import { onMount } from 'svelte'
+    import Link from "../components/link.svelte";
+    export let data
 
-    let link, description, image, base64, tags
-
-    onMount(async () => {
-        let response = fetch('/').then(res => res.body)
-        const reader = response.body.getReader();
-
-        let result;
-        while (!(result = await reader.read()).done) {
-        console.log('chunk size:', result.value.byteLength);
-        }
-    })
-
-    const encodeImage = (element) => {
+    let link, description, image, base64, tags;
+    
+    const encodeImage = element => {
         let file = element.target.files[0]
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.addEventListener('load', () => {
             base64 = reader.result
         })
-    }
-    
-    const submit = async () => {
 
-        let data = {
-            link,
-            description,
-            base64: base64 || null,
-            tags
-        }
-
-        await fetch('/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
     }
     
     const changeTags = element => {
         tags = element.target.value
-        console.log(tags);
     }
+    
 </script>
 
 <h1>Kinda of a bookmark application</h1>
 
-<form class="form--container" on:submit={submit}>
+<form class="form--container" action="?/korvar" method="post">
+    
     <div class="field--container">
         <label for="link">Link</label>
         <input type="text" name="link" id="link" bind:value={link} placeholder="Link" />
@@ -81,6 +56,10 @@
     </div>
 
 </form>
+
+{#each data.links as link}
+    <Link {link}/>
+{/each}
 
 <style>
     * {
