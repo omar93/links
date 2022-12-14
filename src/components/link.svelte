@@ -30,7 +30,7 @@
         border: 1px solid black;
         border-radius: 10px;
         padding: 10px;
-        margin: 10px;
+        margin-top: 10px;
     }
     h2 {
         margin: 0;

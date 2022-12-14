@@ -51,55 +51,93 @@
     
 </script>
 
-<h1>Kinda of a bookmark application</h1>
+<div id="top--container">
+    <h1>Kinda of a bookmark application</h1>
+</div>
 
 <!-- <form class="form--container" action="/" method="post"> -->
-    <form class="form--container" on:submit={submit}>
-    <div class="field--container">
-        <label for="link">Link</label>
-        <input type="text" name="link" id="link" bind:value={link} placeholder="Link" required/>
-    </div>
+    <div id="bottom--container">
+        <div id="form--container">
+            <form class="form--container" on:submit={submit}>
+                <div class="field--container">
+                    <label for="link">Link</label>
+                    <input type="text" name="link" id="link" bind:value={link} placeholder="Link" required/>
+                </div>
+            
+                <div class="field--container">
+                    <label for="description">Description (Optional)</label>
+                    <input type="text" name="description" id="description" bind:value={description} placeholder="Description" />
+                </div>
+            
+                <div class="field--container" id="tags--container">
+                    <label for="tags">Tags (Optional)</label>
+                    <input list="tags" name="tags" on:change={changeTags} on:keypress={checkTags}/>
+                    <datalist id="tags">
+                        <option value="Svelte" />
+                        <option value="Sapper" />
+                        <option value="JavaScript" />
+                        <option value="CSS" />
+                        <option value="HTML" />
+                    </datalist>
+                    <ul id="tags--list">
+                        {#each tags as tag}
+                            <li id="tag" on:click={removeTag}>{tag}</li>
+                        {/each}
+                    </ul>
+                </div>
+            
+                <div id="file--container">
+                    <label for="image">Picture (Optional)</label>
+                    <input type="file" name="image" id="image" on:change={encodeImage} bind:value={image}/>
+                </div>
+            
+                <div class="field--container">
+                    <button>Submit</button>
+                </div>
+            
+            </form>
+        </div>
 
-    <div class="field--container">
-        <label for="description">Description (Optional)</label>
-        <input type="text" name="description" id="description" bind:value={description} placeholder="Description" />
-    </div>
-
-    <div class="field--container" id="tags--container">
-        <label for="tags">Tags (Optional)</label>
-        <input list="tags" name="tags" on:change={changeTags} on:keypress={checkTags}/>
-        <datalist id="tags">
-            <option value="Svelte" />
-            <option value="Sapper" />
-            <option value="JavaScript" />
-            <option value="CSS" />
-            <option value="HTML" />
-        </datalist>
-        <ul id="tags--list">
-            {#each tags as tag}
-                <li id="tag" on:click={removeTag}>{tag}</li>
+        <div id="link--container">
+            <div class="field--container" id="search--container">
+                <label for="search">Search</label>
+                <input type="text" name="search" id="search" placeholder="Search">
+            </div>
+            {#each data.links as link}
+                <Link {link}/>
             {/each}
-        </ul>
+        </div>
+
     </div>
 
-    <div class="field--container" id="file--container">
-        <label for="image">Picture (Optional)</label>
-        <input type="file" name="image" id="image" on:change={encodeImage} bind:value={image}/>
-    </div>
-
-    <div class="field--container">
-        <button>Submit</button>
-    </div>
-
-</form>
-
-{#each data.links as link}
-    <Link {link}/>
-{/each}
 
 <style>
     * {
         font-family: sans-serif;
+    }
+    #top--container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+    }
+    #bottom--container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+    #form--container {
+        width: 30%;
+        align-self: flex-start;
+    }
+    #link--container {
+        width: calc(70% - 14px);
+    }
+    #search--container {
+        width: 50%;
+        margin-left: 25%;
     }
     h1 {
         text-align: center;
@@ -110,16 +148,13 @@
     .form--container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 50%;
-        margin-left: 25%;
+        width: 80%;
+        margin-left: 5%;
         height: 100%;
         background-color: #fff;
         border-radius: 10px;
-        padding: 20px;
     }
-    .form--container input {
+    input {
         width: 100%;
         height: 20px;
         border: 1px solid #ccc;
@@ -141,7 +176,7 @@
     }
     .field--container {
         width: 100%;
-        margin-top: 25px;
+        margin-top: 30px;
     }
     #file--container {
         margin-top: 45px;
@@ -154,7 +189,6 @@
         position: absolute;
         list-style: none;
         width: 100%;
-        border: 1x solid red;
         position: absolute;
         top: 65px;
         left: -43.5px;
