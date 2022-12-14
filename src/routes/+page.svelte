@@ -2,24 +2,26 @@
     import Link from "../components/link.svelte";
     export let data
 
-    let link, description, base64, image, inputField, fileinput
+    let link, description, base64, image, fileinput
     let tags = ['funny', 'tutorial']
     
-    const encodeImage = (e) => {
-        let reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onload = e => {
-            fileinput.files[0] = reader.result
-        };
+    const encodeImage = element => {
+        let file = element.target.files[0]
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.addEventListener('load', () => {
+            base64 = reader.result
+        })
     }
 
     const submit = async () => {
         let data = {
             link,
             description,
-            base64: base64 || null,
+            image: base64,
             tags
         }
+        console.log(data);
         const response = await fetch('/', {
             method: 'POST',
             headers: {
@@ -82,11 +84,7 @@
 
     <div class="field--container" id="file--container">
         <label for="image">Picture (Optional)</label>
-        <input type="file" name="image" id="image" on:change={encodeImage} on:blur={encodeImage}/>
-
-        <!-- <img class="upload" src="https://static.thenounproject.com/png/625182-200.png" alt="" on:click={()=>{fileinput.click();}} />
-        <div class="chan" on:click={()=>{fileinput.click();}}>Choose Image</div>
-        <input style="display:none" type="file" name="file" accept=".jpg, .jpeg, .png" on:change={(e)=>encodeImage(e)} bind:this={fileinput} > -->
+        <input type="file" name="image" id="image" on:change={encodeImage} bind:value={image}/>
     </div>
 
     <div class="field--container">
