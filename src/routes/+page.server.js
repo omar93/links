@@ -18,7 +18,8 @@ export const actions =  {
         const image = formData.get('image')
         const tags = formData.get('tags')
 
-        
+        console.log(tags[0]);
+        console.log(tags[1]);
          
         let json = {
             link,

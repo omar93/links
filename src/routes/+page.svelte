@@ -2,17 +2,14 @@
     import Link from "../components/link.svelte";
     export let data
 
-    let link, description, base64, image, tags, inputField, fileinput
+    let link, description, base64, image, inputField, fileinput
+    let tags = ['funny', 'tutorial']
     
     const encodeImage = (e) => {
-        console.log(fileinput.files);
-        let image = fileinput.files[0]
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = e => {
             fileinput.files[0] = reader.result
-            console.log("...................");
-            console.log(fileinput.files[0]);
         };
     }
 
@@ -23,38 +20,52 @@
             base64: base64 || null,
             tags
         }
-        await fetch('/', {
+        const response = await fetch('/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
+        console.log(response);
     }
 
     const changeTags = element => {
         tags = element.target.value
+    }
+
+    const checkTags = (element) => {
+        console.log(element.key);
+        if (element.key === " ") {
+            tags = [...tags, element.target.value]
+            element.target.value = ""
+        }
+        console.log(tags);
+    }
+
+    const removeTag = (element) => {
+        tags = tags.filter(tag => tag !== element.target.innerText)
     }
     
 </script>
 
 <h1>Kinda of a bookmark application</h1>
 
-<form class="form--container" action="/" method="post">
-    <!-- <form class="form--container" on:submit={submit}> -->
+<!-- <form class="form--container" action="/" method="post"> -->
+    <form class="form--container" on:submit={submit}>
     <div class="field--container">
         <label for="link">Link</label>
-        <input type="text" name="link" id="link" bind:value={link} placeholder="Link" />
+        <input type="text" name="link" id="link" bind:value={link} placeholder="Link" required/>
     </div>
 
     <div class="field--container">
-        <label for="description">Description</label>
+        <label for="description">Description (Optional)</label>
         <input type="text" name="description" id="description" bind:value={description} placeholder="Description" />
     </div>
 
-    <div class="field--container">
-        <label for="tags">Tags</label>
-        <input list="tags" name="tags" on:change={changeTags}/>
+    <div class="field--container" id="tags--container">
+        <label for="tags">Tags (Optional)</label>
+        <input list="tags" name="tags" on:change={changeTags} on:keypress={checkTags}/>
         <datalist id="tags">
             <option value="Svelte" />
             <option value="Sapper" />
@@ -62,10 +73,15 @@
             <option value="CSS" />
             <option value="HTML" />
         </datalist>
+        <ul id="tags--list">
+            {#each tags as tag}
+                <li id="tag" on:click={removeTag}>{tag}</li>
+            {/each}
+        </ul>
     </div>
 
-    <div class="field--container">
-        <label for="image">Picture</label>
+    <div class="field--container" id="file--container">
+        <label for="image">Picture (Optional)</label>
         <input type="file" name="image" id="image" on:change={encodeImage} on:blur={encodeImage}/>
 
         <!-- <img class="upload" src="https://static.thenounproject.com/png/625182-200.png" alt="" on:click={()=>{fileinput.click();}} />
@@ -107,7 +123,7 @@
     }
     .form--container input {
         width: 100%;
-        height: 40px;
+        height: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 10px;
@@ -122,13 +138,33 @@
         margin: 10px 0;
         background-color: #fff;
     }
-
     .form--container button:hover {
         background-color: #ccc;
     }
-
     .field--container {
         width: 100%;
         margin-top: 25px;
+    }
+    #file--container {
+        margin-top: 45px;
+    }
+    #tags--container {
+        position: relative;
+    }
+    #tags--list {
+        display: flex;
+        position: absolute;
+        list-style: none;
+        width: 100%;
+        border: 1x solid red;
+        position: absolute;
+        top: 65px;
+        left: -43.5px;
+    }
+    #tag {
+        background-color: rgb(148, 144, 144);
+        border-radius: 5px;
+        padding: 3px;
+        margin-left: 5px;
     }
 </style>

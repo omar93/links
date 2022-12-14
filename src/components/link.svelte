@@ -1,5 +1,7 @@
-<script>
+<!-- <script>
     export let link;
+    
+    let arr = link.tags.split(' ');
 </script>
 
 <div>
@@ -12,7 +14,12 @@
 </div>
 
 <style>
+    /* 
+        Make the span oval with gray background
+    */
     span {
-        border-radius: 100%;
+        background-color: gray;
+        border-radius: 10px;
+        padding: 5px;
     }
-</style>
+</style> -->
