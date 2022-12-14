@@ -1,6 +1,6 @@
 import { links } from '../db/links.js'
 
-export const POST =  async ({request}) => {
+export const POST = async ({request}) => {
     const {link, description, image, tags} = await request.json();
     links.insertOne({
         link,
@@ -10,3 +10,4 @@ export const POST =  async ({request}) => {
     })
     return new Response(String('test'));
 }
+

@@ -2,7 +2,7 @@
     import Link from "../components/link.svelte";
     export let data
 
-    let link, description, base64, image, fileinput
+    let link, description, base64, image
     let links = data.links
     let tags = ['funny', 'tutorial']
     
@@ -50,10 +50,19 @@
         tags = tags.filter(tag => tag !== element.target.innerText)
     }
 
-    const search = element => {
+    const search = async element => {
         if (element.key === "Enter") {
+            let arr = element.target.value.split(" ")
+            const response = await fetch('/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    search: arr
+                })
+            })
             // filter list items that container elements value
-            console.log(links);
             links = links.filter(link => link.link.includes(element.target.value))
 
         }
