@@ -3,6 +3,7 @@
     export let data
 
     let link, description, base64, image, fileinput
+    let links = data.links
     let tags = ['funny', 'tutorial']
     
     const encodeImage = element => {
@@ -47,6 +48,15 @@
 
     const removeTag = (element) => {
         tags = tags.filter(tag => tag !== element.target.innerText)
+    }
+
+    const search = element => {
+        if (element.key === "Enter") {
+            // filter list items that container elements value
+            console.log(links);
+            links = links.filter(link => link.link.includes(element.target.value))
+
+        }
     }
     
 </script>
@@ -101,11 +111,13 @@
         <div id="link--container">
             <div class="field--container" id="search--container">
                 <label for="search">Search</label>
-                <input type="text" name="search" id="search" placeholder="Search">
+                <input type="text" name="search" id="search" placeholder="Search" on:keypress={search}>
             </div>
-            {#each data.links as link}
-                <Link {link}/>
-            {/each}
+            <div id="links--container">
+                {#each links as link}
+                    <Link {link}/>
+                {/each}
+            </div>
         </div>
 
     </div>
@@ -134,6 +146,13 @@
     }
     #link--container {
         width: calc(70% - 14px);
+    }
+    #links--container {
+        width: calc(70% - 14px);
+        flex: 1 1 auto;
+        overflow-y: auto;
+        height: 75vh;
+        width: 100%;
     }
     #search--container {
         width: 50%;
