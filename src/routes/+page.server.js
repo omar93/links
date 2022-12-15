@@ -2,6 +2,7 @@ import { links } from '../db/links.js'
 
 export const load = async () => {
     const data = await links.find().toArray()
+    console.log(data);
     return {
         links: JSON.parse(JSON.stringify(data))
     }
@@ -17,9 +18,6 @@ export const actions =  {
         const description = formData.get('description')
         const image = formData.get('image')
         const tags = formData.get('tags')
-
-        console.log(tags[0]);
-        console.log(tags[1]);
          
         let json = {
             link,
@@ -27,7 +25,6 @@ export const actions =  {
             image,
             tags
         }
-        console.log(json);
         links.insertOne(json)
     }
 }

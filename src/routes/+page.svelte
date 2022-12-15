@@ -1,10 +1,15 @@
 <script>
     import Link from "../components/link.svelte";
+
     export let data
 
     let link, description, base64, image
     let links = data.links
-    let tags = ['funny', 'tutorial']
+    let tags = []
+
+    const deleteLink = (element) => {
+        links = links.filter(link => link._id !== element.detail._id)
+    }
     
     const encodeImage = element => {
         let file = element.target.files[0]
@@ -16,13 +21,14 @@
     }
 
     const submit = async () => {
+        console.log("image: ", image);
+        console.log("base64: ", base64);
         let data = {
             link,
             description,
             image: base64,
             tags
         }
-        console.log(data);
         const response = await fetch('/', {
             method: 'POST',
             headers: {
@@ -30,7 +36,6 @@
             },
             body: JSON.stringify(data)
         })
-        console.log(response);
     }
 
     const changeTags = element => {
@@ -38,12 +43,10 @@
     }
 
     const checkTags = (element) => {
-        console.log(element.key);
         if (element.key === " ") {
             tags = [...tags, element.target.value]
             element.target.value = ""
         }
-        console.log(tags);
     }
 
     const removeTag = (element) => {
@@ -124,7 +127,7 @@
             </div>
             <div id="links--container">
                 {#each links as link}
-                    <Link {link}/>
+                    <Link {link} on:delete={deleteLink}/>
                 {/each}
             </div>
         </div>
