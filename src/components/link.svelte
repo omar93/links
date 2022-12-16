@@ -2,6 +2,10 @@
     import { createEventDispatcher } from 'svelte'
     
     export let link
+
+    if(link.image === null) {
+        link.image = './bookmark.png'
+    } 
     
     const dispatch = createEventDispatcher()
 
@@ -15,15 +19,25 @@
         })
         dispatch('delete', link)
     }
+
+    const copyLink = () => {
+        navigator.clipboard.writeText(link.link)
+        let toast = document.getElementById('snackbar')
+        toast.className = 'show'
+        setTimeout(() => {
+            toast.className = toast.className.replace('show', 'gemberss')
+        }, 1000)
+    }
 </script>
 
 <div id="container">
-    
-    {#if link.image}
-        <img src={link.image} alt="link" />
-    {:else}
-        <img src={"./bookmark.png"} alt="link" />
-    {/if}
+
+    <div id="image--container">
+        <img src={link.image} alt="link" id="icon"/>
+        <img src="./copy.png" alt="copy" id="copy" on:click={copyLink} on:keypress={() => console.log()}/>
+        <p id="snackbar">Successfully Copied</p>
+    </div>
+
 
     <div id="text--container">
         <a href={link.link} target="blanc">
@@ -54,10 +68,20 @@
         margin: 0;
         cursor: pointer;
     }
-    img {
+    #image--container {
+        position: relative;
+        cursor: pointer;
+    }
+    #icon {
         height: 100px;
         width: 100px;
         object-fit: cover;
+    }
+    #copy {
+        width: 25px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
     }
     #text--container {
         margin-left: 10px;
@@ -72,5 +96,54 @@
         right: 10px;
         top: 10px;
         cursor: pointer;
+    }
+
+
+
+    #snackbar {
+        visibility: hidden;
+        color: #fff;
+        background-color: #333;
+        min-width: 250px;
+        margin-left: -125px;
+        border-radius: 2px;
+        padding: 16px;
+        text-align: center;
+        left: 50%;
+        bottom: 30px;
+        z-index: 1;
+        position: absolute;
+    }
+
+    /* This will be activated when the snackbar's class is 'show' which will be added through JS */
+    .show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    .gemberss {
+        visibility: hidden;
+    }
+
+    /* Animations for fading in and out */
+    @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+    }
+
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+    }
+
+    @-webkit-keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+
+    @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
     }
 </style>

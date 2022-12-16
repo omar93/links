@@ -2,7 +2,6 @@ import { links } from '../db/links.js'
 
 export const load = async () => {
     const data = await links.find().toArray()
-    console.log(data);
     return {
         links: JSON.parse(JSON.stringify(data))
     }

@@ -21,8 +21,6 @@
     }
 
     const submit = async () => {
-        console.log("image: ", image);
-        console.log("base64: ", base64);
         let data = {
             link,
             description,
