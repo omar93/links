@@ -3,6 +3,8 @@
     
     export let link
 
+    let element
+
     if(link.image === null) {
         link.image = './bookmark.png'
     } 
@@ -22,10 +24,12 @@
 
     const copyLink = () => {
         navigator.clipboard.writeText(link.link)
-        let toast = document.getElementById('snackbar')
-        toast.className = 'show'
+        let element = document.createElement('p')
+        element.textContent = 'Successfully Copied'
+        element.className = 'show'
+        document.querySelector('#image--container').appendChild(element)
         setTimeout(() => {
-            toast.className = toast.className.replace('show', 'gemberss')
+            element.remove()
         }, 1000)
     }
 </script>
@@ -34,8 +38,6 @@
 
     <div id="image--container">
         <img src={link.image} alt="link" id="icon"/>
-        <img src="./copy.png" alt="copy" id="copy" on:click={copyLink} on:keypress={() => console.log()}/>
-        <p id="snackbar">Successfully Copied</p>
     </div>
 
 
@@ -50,6 +52,7 @@
     </div>
 
     <button on:click={deleteLink}>X</button>
+    <img src="./copy.png" alt="copy" id="copy" on:click={copyLink} on:keypress={() => console.log()}/>
 
 </div>
 
@@ -82,6 +85,7 @@
         position: absolute;
         bottom: 10px;
         right: 10px;
+        cursor: pointer;
     }
     #text--container {
         margin-left: 10px;
