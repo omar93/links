@@ -8,4 +8,7 @@ export const POST = async ({request}) => {
         image,
         tags
     })
+
+    return new Response('ok')
+        
 }
