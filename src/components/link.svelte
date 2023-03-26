@@ -3,13 +3,17 @@
     
     export let link
 
-    let element
-
     if(link.image === null) {
         link.image = './bookmark.png'
-    } 
-    
+    }
+
     const dispatch = createEventDispatcher()
+
+    const clickSearch = (e) => {
+        let tag = e.target.textContent
+        dispatch('clickSearch', tag)
+    }
+    
 
     const deleteLink = async () => {
         await fetch('/delete', {
@@ -43,12 +47,14 @@
 
     <div id="text--container">
         <a href={link.link} target="blanc">
-            <h2>{link.link}</h2>
+            <h3>{link.link}</h3>
         </a>
         <p>{link.description}</p>
+        <div id="tag--wrapper">
         {#each link.tags as tag}
-            <span>{tag}</span>
+            <span on:click={clickSearch}>{tag}</span>
         {/each}
+        </div>
     </div>
 
     <button on:click={deleteLink}>X</button>
@@ -67,13 +73,15 @@
         margin-top: 10px;
         position: relative;
     }
-    h2 {
-        margin: 0;
-        cursor: pointer;
-    }
     #image--container {
         position: relative;
         cursor: pointer;
+    }
+    #icon {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+        border-radius: 10px;
     }
     #icon {
         height: 100px;
@@ -89,9 +97,23 @@
     }
     #text--container {
         margin-left: 10px;
+        width: 85%;
+        overflow: hidden;
+    }
+    a > h3 {
+        margin: 0;
+    }
+    #tag--wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    #tag--wrapper > span {
+        margin-left: 5px;
+        cursor: pointer;
     }
     span {
-        background-color: gray;
+        background-color: rgba(128, 128, 128, 0.623);
         border-radius: 10px;
         padding: 5px;
     }
@@ -100,54 +122,5 @@
         right: 10px;
         top: 10px;
         cursor: pointer;
-    }
-
-
-
-    #snackbar {
-        visibility: hidden;
-        color: #fff;
-        background-color: #333;
-        min-width: 250px;
-        margin-left: -125px;
-        border-radius: 2px;
-        padding: 16px;
-        text-align: center;
-        left: 50%;
-        bottom: 30px;
-        z-index: 1;
-        position: absolute;
-    }
-
-    /* This will be activated when the snackbar's class is 'show' which will be added through JS */
-    .show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
-
-    .gemberss {
-        visibility: hidden;
-    }
-
-    /* Animations for fading in and out */
-    @-webkit-keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
-    }
-
-    @keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
-    }
-
-    @-webkit-keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
-    }
-
-    @keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
     }
 </style>

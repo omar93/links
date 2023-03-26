@@ -1,5 +1,5 @@
 <script>
-    import Link from "../components/link.svelte";
+    import Link from "../components/link.svelte"
 
     export let data
 
@@ -36,13 +36,10 @@
         })
     }
 
-    const changeTags = element => {
-        tags = element.target.value
-    }
-
     const checkTags = (element) => {
-        if (element.key === " ") {
-            tags = [...tags, element.target.value]
+        let tag = element.target.value.trim()
+        if (tag.length > 0 && element.key === " " && !tags.includes(tag)) {
+            tags = [...tags, tag]
             element.target.value = ""
         }
     }
@@ -51,22 +48,15 @@
         tags = tags.filter(tag => tag !== element.target.innerText)
     }
 
-    const search = async element => {
-        if (element.key === "Enter") {
-            let arr = element.target.value.split(" ")
-            const response = await fetch('/api', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    search: arr
-                })
-            })
-            // filter list items that container elements value
-            links = links.filter(link => link.link.includes(element.target.value))
-
-        }
+    const clickSearch = async target => {
+        let tag = target.detail
+        const response = await fetch('/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({tag})
+        })
     }
     
 </script>
@@ -91,17 +81,12 @@
             
                 <div class="field--container" id="tags--container">
                     <label for="tags">Tags (Optional)</label>
-                    <input list="tags" name="tags" on:change={changeTags} on:keypress={checkTags}/>
+                    <input list="tags" name="tags" on:keypress={checkTags}/>
                     <datalist id="tags">
-                        <option value="Svelte" />
-                        <option value="Sapper" />
-                        <option value="JavaScript" />
-                        <option value="CSS" />
-                        <option value="HTML" />
                     </datalist>
                     <ul id="tags--list">
                         {#each tags as tag}
-                            <li id="tag" on:click={removeTag}>{tag}</li>
+                            <li id="tag" on:click={removeTag} on:keydown={removeTag}>{tag}</li>
                         {/each}
                     </ul>
                 </div>
@@ -125,7 +110,7 @@
             </div>
             <div id="links--container">
                 {#each links as link}
-                    <Link {link} on:delete={deleteLink}/>
+                    <Link {link} on:delete={deleteLink} on:clickSearch={clickSearch}/>
                 {/each}
             </div>
         </div>
