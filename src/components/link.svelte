@@ -60,7 +60,7 @@
         <button id="delete" on:click={deleteLink}>X</button>
         <div id="copy--container">
             {#if visable}
-                <p id="copied" in:fly="{{ y: -50, duration: 500 }}" out:fade>Successfully Copied</p>
+                <p id="copied" in:fly="{{ duration: 750 }}" out:fade>Successfully Copied</p>
             {/if}
             <img src="./copy.png" alt="copy" id="copy" on:click={copyLink} on:keypress={() => console.log()}/>
         </div>
@@ -143,7 +143,7 @@
 
     #copied {
         position: absolute;
-        margin-top: 4%;
+        margin-top: 2.5%;
         border: 2px solid green;
         background-color: green;
         color: white;
