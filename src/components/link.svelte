@@ -33,7 +33,7 @@
         visable = true
         setTimeout(() => {
             visable = false
-        }, 1000)
+        }, 1500)
     }
 </script>
 
@@ -60,7 +60,7 @@
         <button id="delete" on:click={deleteLink}>X</button>
         <div id="copy--container">
             {#if visable}
-                <p id="copied" in:fly="{{ duration: 750 }}" out:fade>Successfully Copied</p>
+                <p id="copied" in:fade="{{ duration: 500 }}" out:fade="{{ duration: 500 }}">Successfully Copied</p>
             {/if}
             <img src="./copy.png" alt="copy" id="copy" on:click={copyLink} on:keypress={() => console.log()}/>
         </div>
