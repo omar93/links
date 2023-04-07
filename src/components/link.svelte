@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte'
-	import { fade, fly } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
     
     export let link
 
@@ -139,6 +139,7 @@
         background-color: red;
         color: white;
         border: 3px solid red;
+        border-radius: 5px;
     }
 
     #copied {
