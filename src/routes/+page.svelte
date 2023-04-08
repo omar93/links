@@ -30,7 +30,7 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div id="form--container" on:click|self={() => visable = false}>
         <div id="form">
-            <NewLink/>
+            <NewLink on:close={() => visable = false}/>
         </div>
     </div>
     {/if}

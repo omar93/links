@@ -1,6 +1,10 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
+
   let link, description, base64, image
   let tags = []
+
+  const dispatch = createEventDispatcher()
 
   const removeTag = (element) => {
     tags = tags.filter(tag => tag !== element.target.innerText)
@@ -37,6 +41,7 @@
         },
         body: JSON.stringify(data)
     })
+    dispatch('close')
   }
 </script>
 
@@ -94,7 +99,7 @@
     padding: 10px;
     margin: 10px 0;
   }
-  
+
   .field--container {
     width: 100%;
     margin-top: 30px;

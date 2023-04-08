@@ -48,7 +48,7 @@
         <a href={link.link} target="blanc">
             <h3>{link.link}</h3>
         </a>
-        <p>{link.description}</p>
+        <p>{link.description ? link.description : '-'}</p>
         <div id="tag--wrapper">
         {#each link.tags as tag}
             <span on:click={clickSearch} on:keypress={() => console.log()}>{tag}</span>
