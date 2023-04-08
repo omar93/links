@@ -12,9 +12,17 @@
 
     const dispatch = createEventDispatcher()
 
-    const clickSearch = (e) => {
+    const clickSearch = async (e) => {
         let tag = e.target.textContent
-        dispatch('clickSearch', tag)
+        const response = await fetch('/api/clickSearch', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({tag})
+        })
+        let x = await response.json()
+        dispatch('clickSearch', x)
     }
 
     const deleteLink = async () => {

@@ -11,15 +11,8 @@
         links = links.filter(link => link._id !== element.detail._id)
     }
     
-    const clickSearch = async target => {
-        let tag = target.detail
-        const response = await fetch('/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({tag})
-        })
+    const clickSearch = async event => {
+        links = event.detail
     }
     
 </script>
