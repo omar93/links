@@ -64,7 +64,7 @@
         </ul>
     </div>
 
-    <div id="file--container">
+    <div class="field--container">
         <label for="image">Picture (Optional)</label>
         <input type="file" name="image" id="image" on:change={encodeImage} bind:value={image}/>
     </div>
@@ -78,6 +78,7 @@
 <style>
   form {
     width: 100%;
+    height: 100%;
     align-self: flex-start;
   }
 
@@ -86,15 +87,40 @@
   }
   
   input {
-    width: 100%;
+    width: 80%;
     height: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0;
   }
+  
   .field--container {
     width: 100%;
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  button {
+    height: 50px;
+  }
+
+  #tags--list {
+    display: flex;
+    position: absolute;
+    list-style: none;
+    width: 100%;
+    position: absolute;
+    top: -20px;
+    left: 70px;
+  }
+
+  #tag {
+    background-color: rgb(148, 144, 144);
+    border-radius: 5px;
+    padding: 3px;
+    margin-left: 5px;
   }
 </style>

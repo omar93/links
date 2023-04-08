@@ -11,8 +11,6 @@
         links = links.filter(link => link._id !== element.detail._id)
     }
     
-
-
     const clickSearch = async target => {
         let tag = target.detail
         const response = await fetch('/search', {
@@ -29,8 +27,11 @@
 <div id="container">
     
     {#if visable}
-    <div id="form--container">
-        <NewLink/>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div id="form--container" on:click|self={() => visable = false}>
+        <div id="form">
+            <NewLink/>
+        </div>
     </div>
     {/if}
 
@@ -38,6 +39,7 @@
 
         <div class="field--container" id="search--container">
             <input type="text" name="search" id="search" placeholder="Search" on:keypress={search}>
+            <button on:click={() => visable = true}>New Link</button>
         </div>
 
         <div id="links--container">
@@ -57,7 +59,23 @@
     }
 
     #form--container {
-        width: 20%;
+        position: absolute;
+        width: 99%;
+        height: 99%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    #form {
+        width: 55%;
+        height: 75%;
+        margin-left: 25%;
+        margin-top: 5%;
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+        -webkit-box-shadow: 2px 2px 12px 7px rgba(0,0,0,0.76); 
+        box-shadow: 2px 2px 12px 7px rgba(255, 255, 255, 0.76);
     }
 
     #container {
@@ -82,7 +100,6 @@
         width: 50%;
         margin-left: 25%;
         display: flex;
-        flex-direction: column;
     }
 
     input {
