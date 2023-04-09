@@ -20,8 +20,9 @@
             },
             body: JSON.stringify(searchValue)
         })
-        let x = await response.json()
-        links = x
+        let data = await response.json()
+        console.log("data", data);
+        links = data
     }
     
     const clickSearch = async event => {
