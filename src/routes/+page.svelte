@@ -6,9 +6,22 @@
 
     let visable = false
     let links = data.links
+    let searchValue = ''
 
     const deleteLink = (element) => {
         links = links.filter(link => link._id !== element.detail._id)
+    }
+
+    const search = async () => {
+        const response = await fetch('/api/textSearch', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchValue)
+        })
+        let x = await response.json()
+        links = x
     }
     
     const clickSearch = async event => {
@@ -31,7 +44,9 @@
     <div id="link--container">
 
         <div class="field--container" id="search--container">
-            <input type="text" name="search" id="search" placeholder="Search" on:keypress={search}>
+            <form on:submit|preventDefault={search}>
+                <input type="text" name="search" id="search" placeholder="Search" bind:value={searchValue}>
+            </form>
             <button on:click={() => visable = true}>New Link</button>
         </div>
 
