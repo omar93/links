@@ -5,7 +5,7 @@ export async function POST({ request }) {
 
   const search = await request.json()
 
-  const dbData = await links.find({description: {$regex: `/^*(${search})*$/`}}).toArray()
+  const dbData = await links.find({$text: { $search: "sosse" } }).toArray()
 
   return json(dbData)
 }

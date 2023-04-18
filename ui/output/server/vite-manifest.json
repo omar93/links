@@ -1,0 +1,89 @@
+{
+  ".svelte-kit/build/index.js": {
+    "file": "index.js",
+    "src": ".svelte-kit/build/index.js",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ],
+    "dynamicImports": [
+      "src/hooks.server.js"
+    ]
+  },
+  "src/routes/+server.js": {
+    "file": "entries/endpoints/_server.js",
+    "src": "src/routes/+server.js",
+    "isEntry": true,
+    "imports": [
+      "_links.js"
+    ]
+  },
+  "src/routes/delete/+server.js": {
+    "file": "entries/endpoints/delete/_server.js",
+    "src": "src/routes/delete/+server.js",
+    "isEntry": true,
+    "imports": [
+      "_links.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/components/layout.svelte": {
+    "file": "entries/fallbacks/layout.svelte.js",
+    "src": "node_modules/@sveltejs/kit/src/runtime/components/layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "src/routes/+layout.js": {
+    "file": "entries/pages/_layout.js",
+    "src": "src/routes/+layout.js",
+    "isEntry": true
+  },
+  "node_modules/@sveltejs/kit/src/runtime/components/error.svelte": {
+    "file": "entries/fallbacks/error.svelte.js",
+    "src": "node_modules/@sveltejs/kit/src/runtime/components/error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "src/routes/+page.svelte": {
+    "file": "entries/pages/_page.svelte.js",
+    "src": "src/routes/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page-b8ca437c.css"
+    ]
+  },
+  "src/routes/+page.server.js": {
+    "file": "entries/pages/_page.server.js",
+    "src": "src/routes/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_links.js"
+    ]
+  },
+  "src/hooks.server.js": {
+    "file": "chunks/hooks.server.js",
+    "src": "src/hooks.server.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mongo.js"
+    ]
+  },
+  "_index.js": {
+    "file": "chunks/index.js"
+  },
+  "_links.js": {
+    "file": "chunks/links.js",
+    "imports": [
+      "_mongo.js"
+    ]
+  },
+  "_mongo.js": {
+    "file": "chunks/mongo.js"
+  }
+}
