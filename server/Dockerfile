@@ -1,8 +1,13 @@
 # Specify the base image
-FROM node:19-slim
+FROM node:alpine
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
+
+RUN rm -rf /src/node_modules
+RUN rm -rf /src/package-lock.json
+
+RUN apk --no-cache add curl
 
 # Install app dependencies
 RUN npm install
