@@ -1,0 +1,26 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: node-app
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: node-app:latest
+  source:
+    dockerfile: |
+      FROM node:alpine
+      COPY package*.json ./
+      RUN rm -rf /src/node_modules
+      RUN rm -rf /src/package-lock.json
+      RUN apk --no-cache add curl
+      RUN npm install
+      COPY . .
+      EXPOSE 3000
+      CMD [ "npm", "start" ]
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: node:alpine
+    type: Docker

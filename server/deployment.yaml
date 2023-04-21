@@ -1,32 +1,28 @@
-apiVersion: v1
-kind: Service
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
-  name: my-nodejs-app
-spec:
-  type: NodePort
-  selector:
-    app: my-nodejs-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-nodejs-app
+  name: node-app
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: my-nodejs-app
+    app: node-app
+  strategy:
+    rollingParams:
+      intervalSeconds: 2
+      maxSurge: 1
+      maxUnavailable: 0
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
   template:
     metadata:
       labels:
-        app: my-nodejs-app
+        app: node-app
     spec:
       containers:
-      - name: my-nodejs-app
-        image: omaralhamad/backend:latest
+      - image: node-app:latest
+        imagePullPolicy: Always
+        name: node-app
         ports:
         - containerPort: 3000
+          protocol: TCP
